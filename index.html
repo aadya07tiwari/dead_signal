@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEAD SIGNAL — NEXUS-7</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#desktop">Skip to desktop</a>
+<main>
+<!-- 1. BOOT -->
+<section id="boot" class="scr" aria-label="Boot sequence">
+  <h1 class="wordmark">NEXUS<span>-7</span></h1>
+  <ul id="bootlog" class="mono" aria-live="polite"></ul>
+  <div class="bar" role="progressbar" aria-label="Boot progress"><i id="bootbar"></i></div>
+  <button id="bootskip" class="btn">Skip boot</button>
+</section>
+<!-- 2. LOGIN -->
+<section id="login" class="scr" hidden aria-label="Login">
+  <div class="monitor" aria-label="Recovered computer monitor">
+    <div class="monitor-shell">
+      <span class="monitor-camera" aria-hidden="true"></span>
+      <div class="monitor-screen">
+        <div class="login-binary" aria-hidden="true"></div>
+        <div class="login-center">
+          <div class="loginbox">
+            <img class="avatar" src="assets/login/mira-corgi.png" alt="Mira Sen's corgi profile photo">
+            <h2>Welcome Back!</h2>
+            <p class="login-name">Mira Sen</p>
+            <form id="loginform" action="api/session.php" method="post" autocomplete="off">
+              <label for="pw">Password:</label>
+              <input id="pw" name="password" type="password" inputmode="numeric" aria-describedby="pwmsg" maxlength="8">
+              <button type="submit">Unlock</button>
+              <p id="pwmsg" role="status"></p>
+            </form>
+            <p class="login-hint">Hint: <em>The day everything changed</em></p>
+          </div>
+        </div>
+        <div class="login-news" aria-hidden="true"></div>
+        <aside class="clockbox" aria-label="System clock">
+          <b>00:17</b>
+          <span>frozen</span>
+          <span>SYS DATE 02.30.2031 <span aria-hidden="true">⚠</span> invalid</span>
+        </aside>
+        <aside class="sticky" aria-label="Sticky note">
+          <p>03 / 17</p>
+          <p>no slashes<br>don't write the rest<br>down —</p>
+        </aside>
+      </div>
+      <button class="monitor-power" type="button" aria-label="Power button" title="Recovered machine is already running">⏻</button>
+      <div class="monitor-chin" aria-hidden="true"></div>
+    </div>
+    <div class="monitor-neck" aria-hidden="true"></div>
+    <div class="monitor-foot" aria-hidden="true"></div>
+  </div>
+</section>
+<!-- 3. DESKTOP -->
+<section id="desktop" class="scr" hidden tabindex="-1" aria-label="NEXUS-7 desktop">
+  <ul id="icons" class="icons"></ul>
+  <div id="wins"></div>
+  <footer id="taskbar" role="toolbar" aria-label="Taskbar">
+    <span class="tb-brand mono">NEXUS-7</span>
+    <div id="tbapps" class="tbapps"></div>
+    <span class="tb-st mono" title="Connection">▮ DEAD SIGNAL · no uplink</span>
+    <span class="tb-st mono" id="saveind">● saved</span>
+    <span class="tb-st mono" id="evc">Evidence 0/6</span>
+    <button class="tbb" id="hintbtn" aria-label="Hints">Hint</button>
+    <button class="tbb" id="bell" aria-label="Notifications"><span id="belln">0</span>!</button>
+    <button class="tbb login-return" id="lockbtn" aria-label="Return to login screen" title="Lock this computer and return to login">↩ Login</button>
+    <button class="tbb" id="setbtn" aria-label="Settings">Set</button>
+    <span class="tb-st mono" id="timer" aria-label="Session timer">00:00</span>
+    <span class="tb-st mono clock" aria-label="System clock frozen at 00:17">00:17</span>
+  </footer>
+</section>
+<!-- 10. FINAL -->
+<section id="final" class="scr" hidden aria-label="Final evidence">
+  <h2>Decrypting FINAL_MESSAGE.enc</h2>
+  <div class="bar" role="progressbar" aria-label="Decryption"><i id="decbar"></i></div>
+  <div id="fragments" class="mono" aria-live="polite"></div>
+  <div id="choices" hidden>
+    <p class="warnline">One action. It cannot be undone.</p>
+    <div class="chgrid">
+      <button class="ch send" data-end="broadcast"><b>◆ SEND THE EVIDENCE</b><span>Every file leaves this machine. Halden Group will know by morning. So will everyone else.</span></button>
+      <button class="ch del" data-end="silence"><b>✕ DELETE EVERYTHING</b><span>The disk is overwritten. Mira's work, and the danger with it, disappears. So does the proof.</span></button>
+      <button class="ch trace" data-end="trace"><b>◎ TRACE MIRA</b><span>Follow the last uplink. It points to a place, and someone may be waiting there.</span></button>
+    </div>
+  </div>
+</section>
+<!-- 11. ENDING -->
+<section id="ending" class="scr" hidden aria-label="Ending"></section>
+</main>
+<div id="toasts" aria-live="polite"></div>
+<dialog id="modal"><h2 id="mt"></h2><div id="mb"></div><form method="dialog"><button class="btn">Close</button></form></dialog>
+<script src="js/app.js"></script>
+</body>
+</html>
