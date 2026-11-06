@@ -10,14 +10,14 @@
 <a class="skip" href="#desktop">Skip to desktop</a>
 <main>
 <!-- 1. BOOT -->
-<section id="boot" class="scr" aria-label="Boot sequence">
+<section id="boot" class="scr" hidden aria-label="Boot sequence">
   <h1 class="wordmark">NEXUS<span>-7</span></h1>
   <ul id="bootlog" class="mono" aria-live="polite"></ul>
   <div class="bar" role="progressbar" aria-label="Boot progress"><i id="bootbar"></i></div>
   <button id="bootskip" class="btn">Skip boot</button>
 </section>
 <!-- 2. LOGIN -->
-<section id="login" class="scr" hidden aria-label="Login">
+<section id="login" class="scr" aria-label="Login">
   <div class="monitor" aria-label="Recovered computer monitor">
     <div class="monitor-shell">
       <span class="monitor-camera" aria-hidden="true"></span>
@@ -59,18 +59,47 @@
 <section id="desktop" class="scr" hidden tabindex="-1" aria-label="NEXUS-7 desktop">
   <ul id="icons" class="icons"></ul>
   <div id="wins"></div>
+  <aside id="startmenu" class="startmenu" hidden aria-label="Application launcher">
+    <div class="start-head">
+      <span class="user-avatar">MS</span>
+      <span><b>Mira Sen</b><small>Local account</small></span>
+    </div>
+    <label class="launcher-search"><span class="sr-only">Search applications</span><input id="appsearch" type="search" placeholder="Search apps and files" autocomplete="off"></label>
+    <div id="startapps" class="start-apps"></div>
+    <div class="recent-files">
+      <h2>Recent files</h2>
+      <button data-open-app="editor"><span class="file-type">LOG</span><span><b>recovery-session.log</b><small>Modified today, 00:17</small></span></button>
+      <button data-open-app="files"><span class="file-type">WAV</span><span><b>AUD_0?17.wav</b><small>Damaged · 1.84 MB</small></span></button>
+    </div>
+    <div class="start-actions"><button id="logoutmenu">Lock workstation</button><button data-open-app="settings">System settings</button></div>
+  </aside>
+  <aside id="notifycenter" class="notify-center" hidden aria-label="Notification center">
+    <div class="panel-head"><div><b>Notifications</b><small id="notifydate"></small></div><button id="clear-notes">Clear</button></div>
+    <div id="notifylist"></div>
+  </aside>
+  <div id="contextmenu" class="context-menu" role="menu" hidden>
+    <button role="menuitem" data-context="open">Open</button>
+    <button role="menuitem" data-context="refresh">Refresh desktop</button>
+    <button role="menuitem" data-context="terminal">Open Terminal here</button>
+    <span></span>
+    <button role="menuitem" data-context="properties">Properties</button>
+  </div>
   <footer id="taskbar" role="toolbar" aria-label="Taskbar">
-    <span class="tb-brand mono">NEXUS-7</span>
+    <button class="start-button" id="startbtn" aria-label="Open launcher" aria-expanded="false"><span class="os-start-glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
     <div id="tbapps" class="tbapps"></div>
-    <span class="tb-st mono" title="Connection">▮ DEAD SIGNAL · no uplink</span>
-    <span class="tb-st mono" id="saveind">● saved</span>
-    <span class="tb-st mono" id="evc">Evidence 0/6</span>
-    <button class="tbb" id="hintbtn" aria-label="Hints">Hint</button>
-    <button class="tbb" id="bell" aria-label="Notifications"><span id="belln">0</span>!</button>
-    <button class="tbb login-return" id="lockbtn" aria-label="Return to login screen" title="Lock this computer and return to login">↩ Login</button>
-    <button class="tbb" id="setbtn" aria-label="Settings">Set</button>
-    <span class="tb-st mono" id="timer" aria-label="Session timer">00:00</span>
-    <span class="tb-st mono clock" aria-label="System clock frozen at 00:17">00:17</span>
+    <div class="tray" aria-label="System tray">
+      <span class="tb-st mono" id="saveind">saved</span>
+      <button class="tray-button" id="netbtn" aria-label="Network status" title="Network: connected"></button>
+      <button class="tray-button" id="volbtn" aria-label="Volume" title="Volume: 30%"></button>
+      <button class="tray-button" id="batterybtn" aria-label="Battery 78 percent" title="Battery: 78%"></button>
+      <button class="tray-button" id="hintbtn" aria-label="Open contextual help" title="Contextual help"></button>
+      <button class="tray-button notification-button" id="bell" aria-label="Notifications" aria-expanded="false"><span id="belln">0</span></button>
+      <button class="tray-clock" id="clockbtn" aria-label="System clock and date"><b id="sysclock">00:17</b><span id="sysdate">02/30/2031</span></button>
+    </div>
+    <span class="sr-only" id="timer" aria-label="Session timer">00:00</span>
+    <span class="sr-only" id="evc">Evidence 0/6</span>
+    <button class="sr-only" id="lockbtn" aria-label="Lock workstation and return to login">Lock</button>
+    <button class="sr-only" id="setbtn" aria-label="Settings">Settings</button>
   </footer>
 </section>
 <!-- 10. FINAL -->
