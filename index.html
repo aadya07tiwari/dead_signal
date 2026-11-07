@@ -85,8 +85,12 @@
     <button role="menuitem" data-context="properties">Properties</button>
   </div>
   <footer id="taskbar" role="toolbar" aria-label="Taskbar">
-    <button class="start-button" id="startbtn" aria-label="Open launcher" aria-expanded="false"><span class="os-start-glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
-    <div id="tbapps" class="tbapps"></div>
+    <div class="taskbar-weather" aria-label="Local workstation status"><span class="weather-glyph" aria-hidden="true"></span><span><b>17°C</b><small>Recovery mode</small></span></div>
+    <div class="taskbar-center">
+      <button class="start-button" id="startbtn" aria-label="Open launcher" aria-expanded="false"><span class="os-start-glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+      <label class="taskbar-search"><span class="sr-only">Search applications and files</span><span aria-hidden="true">⌕</span><input id="taskbarsearch" type="search" placeholder="Search" autocomplete="off"></label>
+      <div id="tbapps" class="tbapps"></div>
+    </div>
     <div class="tray" aria-label="System tray">
       <span class="tb-st mono" id="saveind">saved</span>
       <button class="tray-button" id="netbtn" aria-label="Network status" title="Network: connected"></button>
