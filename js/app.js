@@ -87,6 +87,7 @@ const ICONS={
  volume:'<path d="M4 10v4h4l5 4V6L8 10zM17 9a5 5 0 0 1 0 6M19 6a9 9 0 0 1 0 12"/>',
  battery:'<rect x="3" y="7" width="17" height="10" rx="2"/><path d="M20 10h2v4h-2M6 10h9v4H6z"/>',
  bell:'<path d="M6 17h12l-2-3V9a4 4 0 0 0-8 0v5zM10 20h4"/>',
+ saveicon:'<path d="M4 3h14l2 2v16H4zM7 3v6h9V3M8 15h8M8 18h6"/>',
  help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.7 2.7 0 1 1 3.2 2.7c-.7.2-.7.8-.7 1.8M12 17h.01"/>'
  ,wav:'<path d="M3 12h2l2-6 3 12 3-14 3 16 2-8h3"/>',
  txt:'<path d="M5 3h10l4 4v14H5zM15 3v5h5M8 12h8M8 16h6"/>',
@@ -111,6 +112,14 @@ const EVN=['Messages decoded','Recording name rebuilt','Recording recovered','Hi
 const ev=k=>{if(S.ev.includes(k))return;S.ev.push(k);$('#evc').textContent=`Evidence ${S.ev.length}/6`;save()};
 const caesar=(s,k)=>s.replace(/[A-Z]/g,c=>String.fromCharCode((c.charCodeAt(0)-65-k+26)%26+65));
 const stage=()=>!S.solved.login?'login':!S.solved.caesar?'caesar':!S.solved.file?'file':!S.solved.audio?'audio':'term';
+const CHECKPOINT_KEY='ds_manual_checkpoint';
+function readCheckpoint(){try{return JSON.parse(localStorage.getItem(CHECKPOINT_KEY)||'null')}catch{return null}}
+function checkpointWindows(){return Object.entries(WM.w).filter(([id])=>APPS[id]).map(([id,w])=>{const e=w.el;return {id,left:e.style.left,top:e.style.top,width:e.style.width,height:e.style.height,max:e.classList.contains('max'),min:e.classList.contains('min')}})}
+function checkpointTime(t){try{return new Date(t).toLocaleString([],{dateStyle:'medium',timeStyle:'short'})}catch{return new Date(t).toLocaleString()}}
+function updateCheckpointUI(){const cp=readCheckpoint(),status=$('#checkpointstatus'),resume=$('#resumeprogress');if(!status||!resume)return;status.textContent=cp?`Saved ${checkpointTime(cp.savedAt)}`:'No manual save';resume.hidden=!cp}
+function saveCheckpoint(){const state=JSON.parse(JSON.stringify(S));delete state.resumeWindows;const cp={version:1,savedAt:Date.now(),state,windows:checkpointWindows()};localStorage.setItem(CHECKPOINT_KEY,JSON.stringify(cp));updateCheckpointUI();notify('Manual checkpoint saved locally')}
+function resumeCheckpoint(){const cp=readCheckpoint();if(!cp)return updateCheckpointUI();modal('Resume saved progress',`<p>Return to the checkpoint saved <b>${checkpointTime(cp.savedAt)}</b>?</p><p class="meta">Current progress after that checkpoint will be replaced.</p><button class="btn pri" id="confirm-resume-progress">Resume checkpoint</button>`);$('#confirm-resume-progress').onclick=()=>{const state=JSON.parse(JSON.stringify(cp.state));state.solved=state.solved||{};state.solved.login=1;state.resumeWindows=cp.windows||[];localStorage.setItem('ds',JSON.stringify(state));sessionStorage.setItem('ds_resume_checkpoint','1');location.reload()}}
+function restoreCheckpointWindows(){if(!Array.isArray(S.resumeWindows))return;const windows=S.resumeWindows;delete S.resumeWindows;save();setTimeout(()=>windows.forEach(x=>{if(!APPS[x.id])return;open(x.id);const e=WM.w[x.id]?.el;if(!e)return;['left','top','width','height'].forEach(k=>{if(x[k])e.style[k]=x[k]});e.classList.toggle('max',!!x.max);e.classList.toggle('min',!!x.min)}),80)}
 function ensureSystemState(){S.logs=S.logs||CONTENT.logs.map((x,i)=>({...x,id:'seed-'+i}));S.termHistory=S.termHistory||[];S.audio=S.audio||{markers:[],captions:true,captionSize:16,visual:false,loop:false,speed:1,preservePitch:true};S.flags=S.flags||{};return S}
 function logEvent(type,src,event,sev='info',details=''){ensureSystemState();const x={id:'log-'+Date.now()+'-'+Math.random().toString(16).slice(2,6),type,time:'03.17 00:17',src,event,sev,details};S.logs.push(x);if(S.logs.length>250)S.logs.splice(0,S.logs.length-250);save();document.dispatchEvent(new CustomEvent('ds-log',{detail:x}));return x}
 function fsFind(name){const q=String(name||'').toLowerCase().replace(/^.*[\\/]/,'');return fsAll().find(n=>n.name.toLowerCase()===q||n.id===q)||(q==='final_message.enc'?fsAll().find(n=>n.id==='final-recovered'||n.id==='final-deleted'):null)}
@@ -158,6 +167,7 @@ function toDesktop(){screen('desktop');$('#desktop').dataset.noise='';initShell(
  updateBinIcons();
  $('#evc').textContent=`Evidence ${S.ev.length}/6`;$('#belln').textContent=S.notes.length;
  updateClock();if(!window.dsClock)window.dsClock=setInterval(updateClock,1000);
+ updateCheckpointUI();restoreCheckpointWindows();
  if(!S.flags.welcome){S.flags.welcome=1;setTimeout(()=>notify('1 new message on the recovered drive'),1200)}}
 function markRead(id,b){if(id==='msg'||id==='mail'){S.flags[id]=1;b?.querySelector('.badge')?.remove();save()}}
 function updateClock(){const s=Math.floor((Date.now()-S.t0)/1000),mm=String(Math.floor(s/60)).padStart(2,'0'),ss=String(s%60).padStart(2,'0');$('#timer').textContent=mm+':'+ss;$('#sysclock').textContent='00:17';$('#sysdate').textContent='02/30/2031'}
@@ -169,6 +179,7 @@ function initShell(){if($('#startbtn').dataset.ready)return;$('#startbtn').datas
  $('#startbtn').onclick=e=>{e.stopPropagation();const m=$('#startmenu'),show=m.hidden;closePanels();m.hidden=!show;$('#startbtn').setAttribute('aria-expanded',show);if(show)setTimeout(()=>$('#appsearch').focus(),0)};
  $('#appsearch').oninput=e=>sa.querySelectorAll('button').forEach(b=>b.hidden=!b.dataset.label.includes(e.target.value.toLowerCase()));
  const taskSearch=$('#taskbarsearch');taskSearch.onfocus=()=>{closePanels();$('#startmenu').hidden=false;$('#startbtn').setAttribute('aria-expanded','true')};taskSearch.oninput=e=>{const q=e.target.value;$('#appsearch').value=q;sa.querySelectorAll('button').forEach(b=>b.hidden=!b.dataset.label.includes(q.toLowerCase()))};taskSearch.onkeydown=e=>{if(e.key==='Enter'){const first=[...sa.querySelectorAll('button:not([hidden])')][0];if(first){open(first.dataset.openApp);taskSearch.value='';$('#appsearch').value='';sa.querySelectorAll('button').forEach(b=>b.hidden=false);closePanels()}}};
+ $('#saveprogress').innerHTML=icon('saveicon')+'<span>Save</span>';$('#saveprogress').onclick=e=>{e.stopPropagation();saveCheckpoint()};$('#resumeprogress').onclick=e=>{e.stopPropagation();resumeCheckpoint()};updateCheckpointUI();
  $('#startmenu').onclick=e=>{const b=e.target.closest('[data-open-app]');if(b){open(b.dataset.openApp);closePanels()}};
  $('#logoutmenu').onclick=()=>{$('#lockbtn').click();closePanels()};
  $('#bell').onclick=e=>{e.stopPropagation();const p=$('#notifycenter'),show=p.hidden;closePanels();p.hidden=!show;$('#bell').setAttribute('aria-expanded',show);if(show){renderNotifications();$('#bell').classList.remove('lit')}};
@@ -342,4 +353,4 @@ $('#lockbtn').onclick=()=>{
 /* ---- start ---- */
 (async()=>{try{const r=await fetch(API.content);if(r.ok)Object.assign(CONTENT,await r.json())}catch{}
  // The monitor login is the landing page and must always be the first visible screen.
- S.solved.login=0;screen('login');$('#pw').focus()})();
+ if(sessionStorage.getItem('ds_resume_checkpoint')==='1'){sessionStorage.removeItem('ds_resume_checkpoint');S.solved.login=1;toDesktop()}else{S.solved.login=0;screen('login');$('#pw').focus()}})();

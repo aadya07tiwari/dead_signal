@@ -86,6 +86,13 @@
   </div>
   <footer id="taskbar" role="toolbar" aria-label="Taskbar">
     <div class="taskbar-weather" aria-label="Local workstation status"><span class="weather-glyph" aria-hidden="true"></span><span><b>17°C</b><small>Recovery mode</small></span></div>
+    <section class="checkpoint-card" aria-label="Game progress checkpoint">
+      <div class="checkpoint-copy"><b>Checkpoint</b><span id="checkpointstatus" aria-live="polite">No manual save</span></div>
+      <div class="checkpoint-actions">
+        <button id="saveprogress" type="button" title="Save current game progress">Save</button>
+        <button id="resumeprogress" type="button" title="Resume the last manually saved checkpoint" hidden>Resume</button>
+      </div>
+    </section>
     <div class="taskbar-center">
       <button class="start-button" id="startbtn" aria-label="Open launcher" aria-expanded="false"><span class="os-start-glyph" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
       <label class="taskbar-search"><span class="sr-only">Search applications and files</span><span aria-hidden="true">⌕</span><input id="taskbarsearch" type="search" placeholder="Search" autocomplete="off"></label>
