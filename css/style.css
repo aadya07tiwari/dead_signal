@@ -558,3 +558,10 @@ body.hc #desktop .board-review{border-color:#737a7f;background:#f8f8f7;color:#24
 .monitor-table tr.selected.evidence-lead-row td{background:#e4ebe7}
 .monitor-evidence-lead{display:inline-block;margin-left:7px;padding:1px 5px;border:1px solid #c8d2ca;border-radius:8px;background:#f3f6f3;color:#586b5d;font:500 .53rem "Segoe UI",var(--sans);white-space:nowrap}
 .monitor-table tr.evidence-lead-row:hover td{background:#eaf0ec}
+
+/* Make contextual help easy to find in the dark system tray. */
+#desktop #hintbtn{display:flex;width:58px;align-items:center;justify-content:center;gap:4px;margin:0 3px;border:1px solid var(--am);background:#3d3017;color:var(--am);box-shadow:0 0 0 1px #0008,0 0 10px #ffc85745;font-weight:700}
+#desktop #hintbtn::after{content:"HINT";font:700 .54rem/1 var(--mono);letter-spacing:.04em}
+#desktop #hintbtn svg{width:17px;height:17px;filter:drop-shadow(0 0 3px #ffc85788)}
+#desktop #hintbtn:hover,#desktop #hintbtn:focus-visible{background:var(--am);color:#21170a;box-shadow:0 0 14px #ffc85799;text-shadow:none}
+@media(max-width:900px){#desktop #hintbtn{width:35px;margin:0 1px;padding:6px}#desktop #hintbtn::after{display:none}}
