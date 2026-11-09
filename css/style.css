@@ -396,6 +396,14 @@ body.desktop-mode::after{display:none}
 /* User-provided transparent File Explorer application icon. */
 #desktop .icons button[data-id="files"] .app-icon{background:transparent!important;border-color:transparent!important;box-shadow:none!important}.ico-fileexplorer{object-fit:contain}.icons .ico-fileexplorer{width:46px;height:46px}.tbapps .ico-fileexplorer{width:27px;height:27px}.start-apps .ico-fileexplorer{width:34px;height:34px}.wh .ico-fileexplorer{width:21px;height:21px}
 
+/* User-provided transparent Messages, Mail and Code Editor icons. */
+#desktop .icons button[data-id="msg"] .app-icon,#desktop .icons button[data-id="mail"] .app-icon,#desktop .icons button[data-id="editor"] .app-icon{background:transparent!important;border-color:transparent!important;box-shadow:none!important}
+.ico-message,.ico-mail,.ico-code{object-fit:contain}
+.icons .ico-message,.icons .ico-mail,.icons .ico-code{width:45px;height:45px}
+.tbapps .ico-message,.tbapps .ico-mail,.tbapps .ico-code{width:26px;height:26px}
+.start-apps .ico-message,.start-apps .ico-mail,.start-apps .ico-code{width:33px;height:33px}
+.wh .ico-message,.wh .ico-mail,.wh .ico-code{width:21px;height:21px}
+
 /* Match padded raster artwork to the visible size of File Explorer. */
 #desktop .icons button[data-id="monitor"] .app-icon,#desktop .icons button[data-id="audio"] .app-icon{width:46px;height:46px;overflow:visible}
 #desktop .icons button[data-id="monitor"] .app-icon{margin-bottom:1px}#desktop .icons button[data-id="audio"] .app-icon{margin-bottom:4px}

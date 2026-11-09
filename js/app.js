@@ -98,7 +98,7 @@ const ICONS={
  enc:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>',
  doc:'<path d="M5 3h10l4 4v14H5zM15 3v5h5M8 12h8M8 16h8"/><path d="M8 8h3"/>'
 };
-const RASTER_ICONS={fileexplorer:'assets/icons/file-explorer.png',monitor:'assets/icons/system-monitor.png',terminal:'assets/icons/terminal.png',audio:'assets/icons/audio-lab.png'};
+const RASTER_ICONS={fileexplorer:'assets/icons/file-explorer.png',message:'assets/icons/messages.png',mail:'assets/icons/mail.png',code:'assets/icons/code-editor.png',monitor:'assets/icons/system-monitor.png',terminal:'assets/icons/terminal.png',audio:'assets/icons/audio-lab.png'};
 const icon=(name,cls='')=>RASTER_ICONS[name]?`<img class="ico raster-icon ico-${name} ${cls}" src="${RASTER_ICONS[name]}" alt="" aria-hidden="true">`:`<svg class="ico ico-${name} ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.note}</svg>`;
 const ICON=name=>`<span class="app-icon">${icon(name)}</span>`;
 const BIN_ASSET='assets/icons/recycle-bin.png',BIN_SCAN={timers:[]};
