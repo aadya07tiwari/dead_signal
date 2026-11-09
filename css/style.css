@@ -428,3 +428,133 @@ body.desktop-mode::after{display:none}
 .board-shell{height:100%;min-height:0;display:flex;flex-direction:column;background:#eef0f1;color:#222}.board-toolbar{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid #d0d3d5;background:#f7f7f7}.board-toolbar h3{margin:0;color:#2d3032;font:600 .82rem "Segoe UI",var(--sans);letter-spacing:0}.board-toolbar p{flex:1;margin:0;color:#555;font-size:.68rem}.board-toolbar button{min-height:30px;padding:4px 8px;border:1px solid #c4c7c9;border-radius:3px;background:#fff;color:#333;font: .68rem "Segoe UI",var(--sans);cursor:pointer}.board-workspace{position:relative;flex:1;min-height:0;overflow:auto;background-color:#f1f2f2;background-image:radial-gradient(#b9bdc0 1px,transparent 1px);background-size:18px 18px}.board-canvas{position:relative;min-width:660px;min-height:470px}.board-links{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}.board-links line{stroke:#617d90;stroke-width:2;stroke-dasharray:5 5;opacity:.72}.board-card{position:absolute;z-index:1;width:190px;min-height:130px;padding:0;border:1px solid #aeb5b9;border-radius:4px;background:#fff;color:#252525;box-shadow:0 3px 8px #27343e1c;font-family:"Segoe UI",var(--sans);touch-action:none}.board-card:focus-visible{outline:3px solid #416b8b;outline-offset:2px}.board-card-head{display:flex;align-items:center;gap:6px;padding:7px 8px;border-bottom:1px solid #dfe1e2;background:#eceff0;cursor:grab;user-select:none}.board-card-head:active{cursor:grabbing}.board-card-head b{flex:1;overflow:hidden;font-size:.68rem;text-overflow:ellipsis;white-space:nowrap}.board-card-head small{color:#526a79;font-size:.56rem;text-transform:uppercase}.board-card-head button{display:grid;place-items:center;width:22px;height:22px;border:0;border-radius:3px;background:transparent;color:#54595c;cursor:pointer}.board-card-head button:hover{background:#d8dddf;color:#222}.board-card p{margin:8px 9px;color:#3f4345;font-size:.66rem;line-height:1.4;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.board-card footer{display:flex;justify-content:space-between;gap:5px;margin:0 9px 8px;color:#5a5d60;font-size:.57rem}.board-card footer b{color:#426b86;font-weight:600}.board-empty{position:absolute;top:50%;left:50%;width:min(360px,85%);transform:translate(-50%,-50%);padding:18px;border:1px solid #d0d3d5;border-radius:5px;background:#fff;color:#303030;text-align:center;box-shadow:0 6px 18px #0001}.board-empty b{display:block;margin-bottom:6px;font-size:.84rem}.board-empty p{margin:0;color:#555;font-size:.72rem;line-height:1.5}
 @media(max-width:760px){.mail-shell{grid-template-columns:112px 185px minmax(210px,1fr)}.mail-folders{padding:8px 5px}.mail-folders>button{padding:6px 5px;font-size:.68rem}.mail-list-head{padding:8px 7px}.mail-reading-head{padding:11px}.mail-subject-line{flex-direction:column;gap:0}.mail-body{padding:10px}.evidence-action{margin:0 0 8px}.board-card{width:176px}.board-canvas{min-width:610px}}
 .board-card.link-picked{outline:3px solid #477d9f;outline-offset:3px;z-index:3}.board-toolbar>div{min-width:0;flex:1}.board-toolbar #board-connect[aria-pressed=true]{background:#dce8ef;border-color:#66869b;color:#233f51}
+
+/* Persistent restart access across every game screen. */
+.reset-game-button{position:fixed;right:16px;bottom:16px;z-index:960;min-height:40px;padding:0 13px;border:1px solid #777d82;border-radius:6px;background:rgba(48,50,53,.96);color:#f7f7f7;box-shadow:0 4px 16px #0005;font:600 .78rem "Segoe UI",var(--sans);cursor:pointer}
+.reset-game-button:hover,.reset-game-button:focus-visible{border-color:#d1d5d8;background:#3c4044;color:#fff}
+dialog.reset-confirmation{width:min(430px,calc(100vw - 28px));padding:22px;border:1px solid #b5b7b9;border-radius:8px;background:#f5f5f5;color:#242628;box-shadow:0 18px 54px #0008;font-family:"Segoe UI",var(--sans)}
+dialog.reset-confirmation::backdrop{background:#17191bcc}
+.reset-confirmation form{margin:0}.reset-eyebrow{margin:0 0 8px;color:#5b6369;font:600 .65rem var(--mono);letter-spacing:.08em}.reset-confirmation h2{font:600 1.2rem "Segoe UI",var(--sans);letter-spacing:0}.reset-confirmation #reset-description{margin:12px 0 20px;color:#45494c;font-size:.88rem;line-height:1.55}.reset-actions{display:flex;justify-content:flex-end;gap:8px}.reset-actions button{min-height:40px;padding:0 13px;border:1px solid #8a8e91;border-radius:4px;background:#fff;color:#292c2f;font:600 .8rem "Segoe UI",var(--sans);cursor:pointer}.reset-actions button:hover,.reset-actions button:focus-visible{border-color:#42474b;background:#eceeef}.reset-actions .reset-confirm{border-color:#383a3d;background:#383a3d;color:#fff}.reset-actions .reset-confirm:hover,.reset-actions .reset-confirm:focus-visible{background:#242628}.reset-actions .reset-confirm:disabled{opacity:.65;cursor:wait}
+@media(max-width:760px){.reset-game-button{right:10px;bottom:calc(var(--tb) + 8px);min-height:36px;padding:0 10px}}
+
+/* Dock Reset as the taskbar's trailing system control while the desktop is open. */
+body.desktop-mode .reset-game-button{right:0;bottom:0;z-index:960;height:var(--tb);min-height:var(--tb);padding:0 14px;border:0;border-left:1px solid rgba(255,255,255,.14);border-radius:0;background:rgba(48,50,53,.96);color:#f5f5f5;box-shadow:none;font-size:.7rem}
+body.desktop-mode .reset-game-button:hover,body.desktop-mode .reset-game-button:focus-visible{background:#414448;color:#fff}
+body.desktop-mode #desktop .tray{margin-right:104px}
+
+/* Toasts live outside #desktop, so use explicit high-contrast colors here. */
+#toasts .toast{background:#f3f3f1;color:#242628;border:1px solid #62676b;box-shadow:0 8px 22px #0005}
+#desktop #notifycenter{background:#f4f4f2;color:#242628}
+#desktop #notifycenter .panel-head small{color:#555b60}
+#desktop #notifycenter .panel-head button{color:#303438}
+#desktop #notifycenter .notify-item{background:#fff;color:#25282b;border:1px solid #d0d2d3;border-radius:4px;margin-top:8px;padding:10px}
+#desktop #notifycenter .notify-item b{color:#25282b}
+#desktop #notifycenter .notify-item p{color:#41464a}
+#desktop #notifycenter .notify-item time{color:#5b6267}
+#toasts .toast{display:flex;flex-direction:column;gap:3px}
+#toasts .toast b{color:#34383b;font-size:.63rem;letter-spacing:.04em;text-transform:uppercase}
+#toasts .toast span{color:#242628;font-size:.76rem;line-height:1.4}
+#toasts .toast-guidance{border-left:4px solid #416b8b}
+#toasts .toast-progress{border-left:4px solid #4d7651}
+#toasts .toast-narrative{border-left:4px solid #9a573e}
+#desktop #notifycenter .notify-item{display:grid;grid-template-columns:24px 1fr;gap:8px}
+#desktop #notifycenter .notify-item .notify-glyph svg{width:17px;height:17px;color:#416b8b}
+#desktop #notifycenter .notify-progress .notify-glyph svg{color:#4d7651}
+#desktop #notifycenter .notify-narrative .notify-glyph svg{color:#9a573e}
+
+/* Phase 3: evidence review and hand-built timeline. */
+.board-review{display:flex;align-items:center;gap:8px;overflow:auto;padding:7px 10px;border-bottom:1px solid #c7cbce;background:#e7e9ea;color:#34383b;font:600 .62rem "Segoe UI",var(--sans);white-space:nowrap}
+.board-review b{margin-right:6px;color:#25292c;font-size:.68rem}
+.board-review span{padding:4px 7px;border:1px solid #c3c7ca;border-radius:3px;background:#f8f8f7}
+.board-card.board-deduction{border-color:#8c9f8e;box-shadow:0 3px 10px #21352226}
+.board-deduction .board-card-head{background:#e8eee8}
+.board-deduction .board-card-head small,.board-deduction footer b{color:#43634b}
+.board-card[aria-label]:focus-visible{outline-color:#17689a}
+.notes-page{height:100%;overflow:auto;padding:20px 24px;color:#292b2e;font: .82rem/1.55 "Segoe UI",var(--sans)}
+.notes-page .meta{color:#555b60;font:600 .62rem var(--mono);letter-spacing:.06em}
+.notes-page h3{margin:17px 0 5px;color:#34383b;font:600 .92rem "Segoe UI",var(--sans);letter-spacing:0}
+.notes-page p{max-width:62ch;margin:0 0 8px}
+.notes-page .btn{min-height:32px;margin:0 0 7px;padding:5px 9px;font:600 .68rem "Segoe UI",var(--sans)}
+.ending-requirements{max-width:760px;margin:12px auto 0;color:#bdc8cf;font-size:.78rem;line-height:1.45;text-align:center}
+.ch:disabled{cursor:not-allowed;opacity:.52;filter:grayscale(.5)}
+.ch:disabled:hover{transform:none}
+body.hc #desktop .setting-row small,body.hc #desktop .muted,body.hc #desktop .mail-row small,body.hc #desktop .mail-row time{color:#333!important}
+body.hc #desktop .desktop-identity small,body.hc #desktop .desktop-menubar .workspace-path{color:#fff}
+body.hc #desktop .board-review{border-color:#737a7f;background:#f8f8f7;color:#242628}
+@media(max-width:760px){.board-review{gap:5px;padding:6px}.board-review b{display:none}.ending-requirements{font-size:.7rem}}
+
+/* Keep File Explorer controls inside the available window width. */
+.fx-main{container:fx-main / inline-size}
+.fx-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:5px 8px;min-height:44px}
+.fx-toolbar>button{flex:0 0 auto;white-space:nowrap}
+.fx-toolbar .fx-crumb{flex:1 1 180px;min-width:0;max-width:100%;overflow:hidden}
+.fx-crumb button{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fx-search{flex:1 1 120px;min-width:110px;width:auto}
+@container fx-main (max-width:620px){
+ .fx-toolbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:6px}
+ .fx-toolbar [data-nav]{grid-row:1;width:100%;min-width:0;padding:0}
+ .fx-toolbar .fx-crumb{grid-column:1/-1;grid-row:2;width:100%;min-width:0;flex:none}
+ .fx-toolbar .fx-search{grid-column:1/-1;grid-row:3;width:100%;min-width:0}
+ .fx-toolbar [data-view=details]{grid-column:1;grid-row:4}
+ .fx-toolbar [data-view=list]{grid-column:2;grid-row:4}
+ .fx-toolbar [data-view=icons]{grid-column:3;grid-row:4}
+ .fx-toolbar [data-preview]{grid-column:4;grid-row:4}
+ .fx-toolbar [data-view],.fx-toolbar [data-preview]{width:100%;min-width:0;padding:0 4px;text-align:center}
+}
+
+/* Give the taskbar tray room beside the fixed Reset control on narrow screens. */
+#desktop #taskbar{position:fixed!important;left:0;right:0;bottom:0;z-index:950}
+@media(max-width:760px){
+ #desktop #taskbar{gap:2px;padding:0 4px}
+ #desktop .tray{flex:none;min-width:0;margin-right:82px!important;gap:0}
+ #desktop .tray #netbtn,#desktop .tray #volbtn,#desktop .tray #batterybtn,#desktop .tray #hintbtn{display:none!important}
+ #desktop .tray #bell{width:28px;min-width:28px;padding:4px}
+ #desktop .tray-clock{width:65px;min-width:65px;padding:2px 4px}
+ body.desktop-mode .reset-game-button{width:82px;padding:0 6px;font-size:.62rem}
+}
+.audio-locked{display:flex;height:100%;min-height:250px;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;color:#292b2e;text-align:center}
+.audio-locked h3{font:600 1.15rem "Segoe UI",var(--sans);letter-spacing:0}
+.audio-locked p{max-width:44ch;margin:0;color:#45494c;font:.82rem/1.5 "Segoe UI",var(--sans)}
+.audio-locked-icon{display:grid;width:48px;height:48px;place-items:center;border:1px solid #bfc4c7;border-radius:50%;background:#edf1f3;color:#416b8b;font-size:1.5rem}
+.audio-locked .btn{background:#383a3d;color:#fff;border-color:#383a3d;font:.75rem "Segoe UI",var(--sans)}
+.audio-status{margin-right:auto;color:#48535b;font:600 .68rem "Segoe UI",var(--sans)}
+.audio-spectrum-hint{margin:3px 2px 8px;color:#41464a;font:.68rem/1.4 "Segoe UI",var(--sans)}
+.audio-toolbar #audio-play:disabled{opacity:.65;cursor:wait}
+
+/* Locked Recycle Bin: show a blurred placeholder, never deleted file details. */
+.fx-bin-lock-view{position:relative;display:grid;min-height:100%;place-items:center;overflow:hidden;background:#e7e9eb}
+.fx-bin-fog{position:absolute;inset:12% 8%;display:flex;flex-direction:column;gap:22px;padding:24px;filter:blur(7px);opacity:.48}
+.fx-bin-fog i{display:block;height:30px;border:1px solid #aeb5ba;border-radius:4px;background:linear-gradient(90deg,#c8d0d4 0 24px,transparent 24px),linear-gradient(#f8f9f9,#f8f9f9);box-shadow:0 0 0 7px #d4d9dc}
+.fx-bin-lock-card{position:relative;z-index:1;width:min(350px,calc(100% - 28px));padding:24px;border:1px solid #c3c8cc;border-radius:8px;background:rgba(250,250,250,.94);color:#292d30;text-align:center;box-shadow:0 14px 36px #20262b30;backdrop-filter:blur(8px)}
+.fx-bin-lock-card>span{font-size:1.7rem}.fx-bin-lock-card h3{margin:8px 0;color:#262a2d;font:600 1rem "Segoe UI",var(--sans)}.fx-bin-lock-card p{margin:0;color:#4b5156;font:.75rem/1.5 "Segoe UI",var(--sans)}
+.audio-gate{position:relative;display:grid;min-height:100%;place-items:center;overflow:hidden;background:#dce1e4}
+.audio-gate-underlay{position:absolute;inset:8%;display:flex;flex-direction:column;gap:18px;padding:14px;filter:blur(8px);opacity:.5;pointer-events:none}
+.audio-gate-toolbar,.audio-gate-controls{display:flex;gap:9px;min-height:32px;padding:7px;border:1px solid #adb6bb;background:#eef0f1}
+.audio-gate-toolbar i,.audio-gate-controls i{display:block;width:70px;border-radius:3px;background:#b7c0c5}
+.audio-gate-wave{flex:1;min-height:130px;border:1px solid #96a5ac;background:repeating-linear-gradient(90deg,#dce3e6 0 8px,#879ba4 8px 10px,#dce3e6 10px 15px);clip-path:polygon(0 48%,4% 45%,8% 53%,12% 40%,16% 58%,20% 42%,24% 52%,28% 12%,31% 84%,34% 48%,38% 10%,41% 88%,44% 47%,48% 8%,51% 92%,54% 48%,58% 18%,61% 82%,64% 47%,68% 49%,72% 45%,76% 54%,80% 47%,84% 52%,88% 44%,92% 55%,96% 48%,100% 50%,100% 53%,96% 52%,92% 55%,88% 46%,84% 53%,80% 48%,76% 55%,72% 47%,68% 51%,64% 53%,61% 84%,58% 20%,54% 52%,51% 94%,48% 10%,44% 51%,41% 90%,38% 12%,34% 52%,31% 86%,28% 14%,24% 54%,20% 44%,16% 60%,12% 42%,8% 55%,4% 47%,0 50%)}
+.audio-locked{position:relative;z-index:1;display:flex;width:min(420px,calc(100% - 28px));height:auto;min-height:0;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;border:1px solid #b9c1c5;border-radius:8px;background:rgba(250,250,250,.96);color:#292b2e;text-align:center;box-shadow:0 16px 40px #18202740;backdrop-filter:blur(10px)}
+.audio-locked>small{color:#5a6870;font:600 .61rem var(--mono);letter-spacing:.12em}
+.repair-evidence{margin:12px 0;padding:10px 12px;border:1px solid #cbd1d4;border-left:3px solid #58768a;border-radius:4px;background:#fff;color:#30363a;font-size:.78rem}
+#mb .repair-evidence p{margin:4px 0 10px;color:#41484d}#mb .repair-evidence p:last-child{margin-bottom:0}#mb .repair-evidence code{padding:1px 4px;border-radius:2px;background:#edf0f1;color:#252a2d;font:.76rem var(--mono)}
+
+/* Keep Evidence Board clues fully readable and refresh the Bin's unlocked state immediately. */
+.board-card{width:210px;height:auto;min-height:130px}
+.board-card-head{align-items:flex-start;flex-wrap:wrap}
+.board-card-head small{flex:1 1 auto}
+.board-card-head b{flex:1 0 100%;order:2;overflow:visible;overflow-wrap:anywhere;text-overflow:clip;white-space:normal;line-height:1.3}
+.board-card-head button{position:absolute;right:4px;top:4px}
+.board-card p{display:block;overflow:visible;overflow-wrap:anywhere;white-space:normal;-webkit-line-clamp:unset;-webkit-box-orient:initial}
+.board-card footer{flex-wrap:wrap;overflow-wrap:anywhere}
+.icons button[data-id="bin"][aria-disabled="false"]{opacity:1;filter:none;cursor:pointer}
+.icons button[data-id="bin"][aria-disabled="false"] .bin-desktop-icon{filter:none!important;opacity:1}
+.terminal-app #ti{min-height:30px;padding:3px 4px;color:#e8f0f2!important;-webkit-text-fill-color:#e8f0f2;caret-color:#fff;font-family:var(--mono);font-size:.9rem}
+.terminal-app .tline:focus-within{outline:1px solid #8bb7ca;outline-offset:-2px}
+@media(max-width:760px){.board-card{width:190px}}
+.terminal-app .terminal-draft{min-height:1.2em;white-space:pre-wrap;color:#e8f0f2}.terminal-app #ti{color:transparent!important;-webkit-text-fill-color:transparent;caret-color:transparent}
+
+/* Evidence leads are gently marked in the system log; each Evidence Board link gets its own color. */
+.monitor-table tr.evidence-lead-row td{background:#f2f5f3}
+.monitor-table tr.evidence-lead-row td:first-child{box-shadow:inset 2px 0 #78907e}
+.monitor-table tr.selected.evidence-lead-row td{background:#e4ebe7}
+.monitor-evidence-lead{display:inline-block;margin-left:7px;padding:1px 5px;border:1px solid #c8d2ca;border-radius:8px;background:#f3f6f3;color:#586b5d;font:500 .53rem "Segoe UI",var(--sans);white-space:nowrap}
+.monitor-table tr.evidence-lead-row:hover td{background:#eaf0ec}

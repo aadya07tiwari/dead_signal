@@ -40,7 +40,7 @@
         <aside class="clockbox" aria-label="System clock">
           <b>00:17</b>
           <span>frozen</span>
-          <span>SYS DATE 02.30.2031 <span aria-hidden="true">⚠</span> invalid</span>
+          <span>SYS DATE 03.19.2031 <span aria-hidden="true">✓</span> local</span>
         </aside>
         <aside class="sticky" aria-label="Sticky note">
           <p>03 / 17</p>
@@ -105,7 +105,7 @@
       <button class="tray-button" id="batterybtn" aria-label="Battery 78 percent" title="Battery: 78%"></button>
       <button class="tray-button" id="hintbtn" aria-label="Open contextual help" title="Contextual help"></button>
       <button class="tray-button notification-button" id="bell" aria-label="Notifications" aria-expanded="false"><span id="belln">0</span></button>
-      <button class="tray-clock" id="clockbtn" aria-label="System clock and date"><b id="sysclock">00:17</b><span id="sysdate">02/30/2031</span></button>
+      <button class="tray-clock" id="clockbtn" aria-label="System clock and date"><b id="sysclock">00:17</b><span id="sysdate">03/19/2031</span></button>
     </div>
     <span class="sr-only" id="timer" aria-label="Session timer">00:00</span>
     <span class="sr-only" id="evc">Evidence 0/6</span>
@@ -125,6 +125,8 @@
       <button class="ch del" data-end="silence"><b>✕ DELETE EVERYTHING</b><span>The disk is overwritten. Mira's work, and the danger with it, disappears. So does the proof.</span></button>
       <button class="ch trace" data-end="trace"><b>◎ TRACE MIRA</b><span>Follow the last uplink. It points to a place, and someone may be waiting there.</span></button>
     </div>
+    <p id="ending-trace-requirements" class="ending-requirements" role="status">Trace Mira unlocks after the timeline is complete, the external session is pinned, and Mira’s location note is on the board.</p>
+    <button type="button" class="btn" id="final-return">Return to workstation</button>
   </div>
 </section>
 <!-- 11. ENDING -->
@@ -132,6 +134,18 @@
 </main>
 <div id="toasts" aria-live="polite"></div>
 <dialog id="modal"><h2 id="mt"></h2><div id="mb"></div><form method="dialog"><button class="btn">Close</button></form></dialog>
+<button id="reset-game" class="reset-game-button" type="button" aria-haspopup="dialog">Reset game</button>
+<dialog id="reset-confirmation" class="reset-confirmation" aria-labelledby="reset-title" aria-describedby="reset-description">
+  <form method="dialog">
+    <p class="reset-eyebrow">NEXUS-7 · RECOVERY CONTROL</p>
+    <h2 id="reset-title">Reset this investigation?</h2>
+    <p id="reset-description">This deletes saved game progress, settings, and manual checkpoints from this workstation. The game will return to the beginning.</p>
+    <div class="reset-actions">
+      <button class="reset-cancel" value="cancel">Keep playing</button>
+      <button id="confirm-reset-game" class="reset-confirm" type="button">Reset to start</button>
+    </div>
+  </form>
+</dialog>
 <script src="js/app.js"></script>
 </body>
 </html>

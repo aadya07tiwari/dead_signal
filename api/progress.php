@@ -5,5 +5,11 @@
 // api/progress.php POST {state JSON} -> {saved:true} persisted per session
 session_start();
 header('Content-Type: application/json');
-$_SESSION['ds'] = json_decode(file_get_contents('php://input'), true);
+$payload = json_decode(file_get_contents('php://input'), true) ?? [];
+if (!empty($payload['reset'])) {
+    unset($_SESSION['ds']);
+    echo json_encode(['reset' => true]);
+    exit;
+}
+$_SESSION['ds'] = $payload;
 echo json_encode(['saved' => true]);
