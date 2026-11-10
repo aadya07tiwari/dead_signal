@@ -567,6 +567,25 @@ body.hc #desktop .board-review{border-color:#737a7f;background:#f8f8f7;color:#24
 .monitor-evidence-lead{display:inline-block;margin-left:7px;padding:1px 5px;border:1px solid #c8d2ca;border-radius:8px;background:#f3f6f3;color:#586b5d;font:500 .53rem "Segoe UI",var(--sans);white-space:nowrap}
 .monitor-table tr.evidence-lead-row:hover td{background:#eaf0ec}
 
+/* Member B reliability, Audio Lab, finale, and destructive-action states. */
+.transcript-toolbar{position:sticky;top:0;z-index:2;display:flex;gap:5px;padding:6px;background:#eef1f2;border-bottom:1px solid #c5ccd0}
+.transcript-toolbar .btn{min-height:30px;padding:4px 8px;color:#30363a;background:#fff;border-color:#aeb8bd;font:600 .68rem var(--sans)}
+.transcript-toolbar .btn.active{color:#fff;background:#355b70;border-color:#355b70}
+.transcript-empty{margin:20px;padding:16px;border:1px dashed #aeb7bb;color:#4c555a;text-align:center}
+.transcript [data-cue-index].active{border-left:4px solid #17689a;background:#dcecf6;box-shadow:inset 0 0 0 1px #afcbdc}
+.shortcut-grid{display:grid;grid-template-columns:max-content 1fr;gap:7px 14px;align-items:center;max-height:55vh;overflow:auto}
+.shortcut-grid kbd{padding:3px 7px;border:1px solid var(--line);border-radius:3px;background:#071116;color:var(--cy);font:700 .75rem var(--mono)}
+.remote-wipe-banner{display:flex;flex:1 1 100%;min-width:260px;flex-direction:column;padding:7px 10px;border:1px solid var(--rd);background:#3a1115;color:#fff;font:.7rem/1.35 var(--sans)}
+.remote-wipe-banner b{color:#ffb0b0}.pulse-control{box-shadow:0 0 0 2px #7d2020,0 0 14px #ff5d5d66}
+body.rm .pulse-control{box-shadow:0 0 0 2px #7d2020}
+.hold-sequence{padding:8px 12px;border:1px solid var(--line);background:#071116}.hold-sequence p{margin:5px 0}
+.delete-warning{padding:10px 12px;border-left:4px solid var(--rd);background:#351114;color:#fff}.delete-warning b{color:#ff9b9b;text-transform:uppercase}
+.evidence-loss{padding:8px 10px;border:1px solid var(--am);background:#382b0d;color:#ffe2a0;font-weight:700}
+.delete-list{max-height:190px;overflow:auto;padding-left:22px}.delete-list li{margin:7px 0}.delete-list span{display:block;color:var(--mu);font-size:.78rem}
+.danger{background:#621d24!important;color:#fff!important;border-color:var(--rd)!important}.danger:disabled{opacity:.45}
+.finale-outcome{max-width:620px;padding:10px 14px;border:1px solid var(--line)}.finale-outcome.early{border-color:var(--gr);color:var(--gr)}.finale-outcome.late{border-color:var(--am);color:var(--am)}.finale-outcome.ignored{border-color:var(--rd);color:#ff9d9d}
+@media(max-width:760px){.remote-wipe-banner{min-width:100%}.shortcut-grid{grid-template-columns:1fr}.audio-controls .btn{flex:1 1 45%}}
+
 /* Make contextual help easy to find in the dark system tray. */
 #desktop #hintbtn{display:flex;width:58px;align-items:center;justify-content:center;gap:4px;margin:0 3px;border:1px solid var(--am);background:#3d3017;color:var(--am);box-shadow:0 0 0 1px #0008,0 0 10px #ffc85745;font-weight:700}
 #desktop #hintbtn::after{content:"HINT";font:700 .54rem/1 var(--mono);letter-spacing:.04em}

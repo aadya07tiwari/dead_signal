@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEAD SIGNAL · Member B QA</title>
+<style>
+:root{--bg:#05090B;--panel:#0B161C;--cy:#55D6C2;--gr:#87F59B;--am:#FFC857;--rd:#FF5D5D;--tx:#DCE8E8;--mu:#829397;--line:#1f343d;--mono:"Courier New",monospace;--sans:Verdana,system-ui,sans-serif}*{box-sizing:border-box}body{margin:0;padding:24px;background:var(--bg);color:var(--tx);font-family:var(--sans)}main{max-width:1100px;margin:auto}h1,h2{color:var(--cy)}button{min-height:42px;padding:8px 14px;border:1px solid var(--cy);background:var(--panel);color:var(--tx);cursor:pointer}table{width:100%;border-collapse:collapse;margin:16px 0;background:var(--panel)}th,td{padding:9px;border:1px solid var(--line);text-align:left}.pass{color:var(--gr)}.fail{color:var(--rd)}code{font-family:var(--mono)}li{margin:7px 0}.summary{color:var(--am)}
+</style>
+</head>
+<body>
+<main>
+<h1>DEAD SIGNAL · Member B QA</h1>
+<p>This page uses in-memory storage only. It never reads or writes the game’s real save keys.</p>
+<button id="run">Run tests</button> <strong id="summary" class="summary" aria-live="polite">Not run</strong>
+<table><thead><tr><th>Test</th><th>Result</th><th>Details</th></tr></thead><tbody id="results"></tbody></table>
+
+<h2>Manual checks</h2>
+<ol>
+<li>Complete a clean-start playthrough, reload after every major checkpoint, and repeat from a resumed save.</li>
+<li>Window management: open, focus, drag, resize, maximize, minimize, taskbar-switch, close, and restore several apps.</li>
+<li>Evidence Board: keyboard-move cards, connect all six pairs, remove a pinned card, and verify timeline/ending eligibility updates.</li>
+<li>Keyboard-only: login, Messages, Mail, Explorer, recovery, Audio Lab, Monitor, Terminal, Evidence Board, and endings without a pointer.</li>
+<li>Accessibility: reduced motion/glitch, subtitles, volume, contrast, text size, and visual effects must affect Audio Lab, finale messages, and terminal feedback consistently.</li>
+<li>Audio: Raw/Enhanced toggle, line highlighting, manual-scroll pause, Jump to current, captions, descriptions, every shortcut, and focus visibility.</li>
+<li>Finale: protect immediately, after several deletions, and never; reload mid-countdown; recover pre-hold files; verify logs, terminal evidence, and each ending summary.</li>
+<li>Recycle Bin: Empty Bin, context-menu delete, Shift+Delete, terminal deletion, typed confirmation, Escape/cancel, and evidence-hold refusal.</li>
+<li>Regression: boot, login, Caesar message, Mail clue, hints, Explorer, Recycle Bin, Terminal, endings, reset, and PHP-unavailable fallback.</li>
+<li>Responsive: repeat the critical path at widths 760px, 600px, and 360px; verify no control or dialog is unreachable.</li>
+</ol>
+</main>
+<script src="../js/member-b-core.js"></script>
+<script src="../js/game-controller.js"></script>
+<script>
+'use strict';
+const tests=[];function test(name,fn){tests.push({name,fn})}function assert(value,message='Assertion failed'){if(!value)throw new Error(message)}function equal(actual,expected,message=''){if(actual!==expected)throw new Error(message||`Expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`)}
+function storage(seed={}){const map=new Map(Object.entries(seed));return {getItem:k=>map.has(k)?map.get(k):null,setItem:(k,v)=>map.set(k,String(v)),removeItem:k=>map.delete(k),dump:()=>Object.fromEntries(map)}}
+const B=DeadSignalMemberB,G=DeadSignalGame;
+
+test('save/load roundtrip preserves state',()=>{const s=storage(),state=B.freshState(1);state.solved.audio=1;assert(B.saveSession(s,state,2).ok);equal(B.loadSession(s).state.solved.audio,1)});
+test('checksum mismatch falls back to rolling backup',()=>{const s=storage(),a=B.freshState(1);a.solved.file=1;B.saveSession(s,a,2);const b=B.freshState(2);b.solved.audio=1;B.saveSession(s,b,3);const broken=JSON.parse(s.getItem(B.PRIMARY_KEY));broken.checksum='00000000';s.setItem(B.PRIMARY_KEY,JSON.stringify(broken));const loaded=B.loadSession(s);assert(loaded.recoveredFromBackup);equal(loaded.state.solved.file,1)});
+test('two bad saves quarantine primary and start fresh',()=>{const s=storage({[B.PRIMARY_KEY]:'{bad',[B.BACKUP_KEY]:'also bad'}),loaded=B.loadSession(s,9);equal(loaded.source,'fresh');equal(loaded.quarantinedRaw,'{bad');equal(s.getItem(B.QUARANTINE_KEY),'{bad')});
+test('v0 migration keeps solved and flags',()=>{const migrated=B.migrate({solved:{audio:1},flags:{enc:1},ev:[],notes:[]});equal(migrated.v,B.VERSION);equal(migrated.solved.audio,1);equal(migrated.flags.enc,1);assert(migrated.audio.filter&&migrated.fs.path)});
+test('storage-disabled mode returns an in-memory session',()=>{const bad={getItem(){throw Error('disabled')},setItem(){throw Error('disabled')},removeItem(){}};const loaded=B.loadSession(bad);equal(loaded.storageOK,false);assert(loaded.state.solved)});
+test('debounce coalesces calls',()=>new Promise((resolve,reject)=>{let count=0;const d=B.debounce(()=>count++,25);d();d();d();setTimeout(()=>{try{equal(count,1);resolve()}catch(e){reject(e)}},60)}));
+
+const transcript=[{start:0,end:2,speaker:'M',corrupt:'[static]',text:'The room is clear.'},{start:2,end:4,speaker:'M',corrupt:'[inaudible]',text:'They moved the archive.'}];
+test('transcript Raw and Enhanced gating',()=>{equal(B.transcriptRows(transcript,'raw',true)[0].display,'[static]');equal(B.transcriptRows(transcript,'enhanced',false)[0].display,'[static]');equal(B.transcriptRows(transcript,'enhanced',true)[0].display,'The room is clear.')});
+test('transcript highlight follows mocked time',()=>{equal(B.activeTranscriptIndex(transcript,2.5),1);equal(B.activeTranscriptIndex(transcript,8),-1)});
+test('empty transcript is safe',()=>equal(B.transcriptRows(null,'raw',true).length,0));
+test('speed shortcuts and bounds',()=>{let a=B.freshState().audio;a=B.audioShortcut(a,'[');equal(a.speed,.75);for(let i=0;i<20;i++)a=B.audioShortcut(a,'[');equal(a.speed,.5);for(let i=0;i<20;i++)a=B.audioShortcut(a,']');equal(a.speed,2);equal(B.audioShortcut(a,'\\').speed,1)});
+test('filter preset, reset, cutoff and Q shortcuts',()=>{let a=B.freshState().audio;a=B.audioShortcut(a,'1');equal(a.filter.preset,'voice');a=B.audioShortcut(a,'ArrowUp',{shift:true});equal(a.filter.cutoff,1900);a=B.audioShortcut(a,'ArrowRight',{shift:true});equal(a.filter.q,5.5);a=B.audioShortcut(a,'0');equal(a.filter.type,'allpass')});
+test('play, seek, marker, captions, and transcript shortcuts',()=>{let a=B.freshState().audio;a.position=10;a=B.audioShortcut(a,' ');assert(a.playing);a=B.audioShortcut(a,'ArrowRight');equal(a.position,15);a=B.audioShortcut(a,'m');equal(a.markers.length,1);a=B.audioShortcut(a,'c');equal(a.captions,false);a=B.audioShortcut(a,'t');equal(a.transcriptMode,'enhanced')});
+
+test('recovery validate/restore and double-restore protection',()=>{let state={restored:[],destroyed:[]};equal(B.recoveryTransition(state,{id:'x',valid:false},'restore').reason,'validation');let result=B.recoveryTransition(state,{id:'x',valid:true},'restore');assert(result.ok);result=B.recoveryTransition(result.state,{id:'x',valid:true},'restore');equal(result.reason,'already-restored')});
+test('permanent deletion requires DELETE',()=>{const state={restored:[],destroyed:[]};equal(B.recoveryTransition(state,{id:'x',confirm:'delete'},'destroy').reason,'confirmation');assert(B.recoveryTransition(state,{id:'x',confirm:'DELETE'},'destroy').ok)});
+test('evidence hold blocks permanent deletion',()=>{equal(B.recoveryTransition({evidenceHold:true},{id:'x',confirm:'DELETE'},'destroy').reason,'evidence-hold')});
+
+test('progression unlock sequence remains intact',()=>{const s={solved:{},flags:{}};equal(G.objective(s).id,'login');s.solved.login=1;s.solved.caesar=1;s.solved.file=1;s.solved.audio=1;s.flags.enc=1;s.flags.timelineComplete=1;s.solved.term=1;equal(G.objective(s).id,'complete')});
+test('finale requires restored archive and reconstructed audio',()=>{const s=B.freshState();assert(!B.finaleEligible(s));s.solved.audio=1;s.flags.enc=1;assert(B.finaleEligible(s))});
+test('finale outcomes cover early, late, and ignored',()=>{equal(B.finaleOutcome({stage:'protected',deleted:[]}), 'early');equal(B.finaleOutcome({stage:'protected',deleted:['a','b']}),'late');equal(B.finaleOutcome({stage:'lost',deleted:['a']}),'ignored')});
+test('mid-finale save reload preserves the step',()=>{const s=B.freshState();s.finale={stage:'active',deleted:['vendors'],destroyed:[],step:1,nextAt:123,outcome:'pending'};const decoded=B.decode(B.encode(s,5)).state;equal(decoded.finale.stage,'active');equal(decoded.finale.deleted[0],'vendors');equal(decoded.finale.step,1)});
+
+async function run(){const body=document.querySelector('#results');body.textContent='';let passed=0;for(const item of tests){const row=document.createElement('tr'),name=document.createElement('td'),status=document.createElement('td'),details=document.createElement('td');name.textContent=item.name;row.append(name,status,details);body.append(row);try{await item.fn();status.textContent='PASS';status.className='pass';details.textContent='—';passed++}catch(error){status.textContent='FAIL';status.className='fail';details.textContent=error.message||String(error)}}document.querySelector('#summary').textContent=`${passed}/${tests.length} passed`}
+document.querySelector('#run').onclick=run;run();
+</script>
+</body>
+</html>
