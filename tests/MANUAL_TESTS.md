@@ -5,17 +5,17 @@ Run the site through a local HTTP server. Use a fresh browser profile or choose 
 ## Recovery and progression
 
 1. Unlock the workstation with `0317` and confirm Act 1 starts at Messages.
-2. Confirm Recycle Bin is blocked before the Audio Lab sequence is completed.
-3. Restore `AUD_0317.wav`, play through the signal, and confirm Recycle Bin becomes available.
-4. Reconstruct and restore `FINAL_MESSAGE.enc`; confirm the objective advances to Evidence Board.
+2. Confirm Recycle Bin is blocked until the Mail/File Explorer clue identifies `AUD_0017.wav`.
+3. Restore `AUD_0017.wav` from Recycle Bin and confirm Audio Lab becomes playable.
+4. In Audio Lab choose Voice, 0.75×, Enhanced transcript, listen through 00:50, and complete `D _ W _` as `DAWN`.
 5. Confirm Terminal remains blocked until all six Evidence Board connections are complete.
-6. Complete the board and confirm Terminal accepts `unlock system`, then `DAWN`.
+6. Complete the board and run `open archive`, `unlock archive DAWN`, and `recover final_message.enc`; verify an empty `[y/N]` response cancels.
 
 ## Audio
 
-1. Confirm Audio Lab is gated before the filename puzzle is solved.
+1. Confirm Audio Lab is gated before `AUD_0017.wav` is restored from Recycle Bin.
 2. After recovery, verify play, pause, stop, seek, volume, speed, captions, descriptions, markers, and keyboard controls.
-3. Play beyond 00:46 and confirm the `4 · 1 · 23 · 14` evidence is recorded only once.
+3. Confirm simply seeking or playing past 00:46 does not solve the puzzle without Voice, 0.75×, Enhanced transcript, and `DAWN` completion.
 
 ## Hints
 
@@ -35,7 +35,8 @@ Run the site through a local HTTP server. Use a fresh browser profile or choose 
 
 1. Confirm Broadcast and Silence are unavailable before final decryption.
 2. Confirm Trace Mira remains disabled without both the location and external-session evidence.
-3. Complete the timeline, pin both required evidence tags, and confirm all three endings become available.
+3. With an early evidence hold, complete the timeline and pin both required evidence tags; confirm all three endings are available.
+4. Confirm a late hold disables Trace, and ignoring the wipe disables Broadcast and Trace while preserving Silence.
 
 ## Member A cross-testing
 

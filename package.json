@@ -2,6 +2,6 @@
   "name": "dead-signal",
   "private": true,
   "scripts": {
-    "test": "node tests/game-controller.test.js"
+    "test": "node tests/game-controller.test.js && node tests/member-b-core.test.js"
   }
 }

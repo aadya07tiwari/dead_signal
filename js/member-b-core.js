@@ -5,7 +5,7 @@
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
 
-  const VERSION=2;
+  const VERSION=3;
   const PRIMARY_KEY='ds_friend_original_v1';
   const BACKUP_KEY='ds_friend_original_v1_backup';
   const QUARANTINE_KEY='ds_friend_original_v1_quarantine';
@@ -14,9 +14,9 @@
     return {
       v:VERSION,t0:now,solved:{},ev:[],hints:0,hl:{},flags:{evidenceHold:0},notes:[],lore:0,
       fs:{path:'research',view:'details',preview:false,history:['research'],hi:0,sort:{key:'name',dir:1},evidence:{},restored:{},recovered:{}},
-      audio:{markers:[],captions:true,captionSize:16,visual:false,loop:false,speed:1,preservePitch:true,position:0,transcriptMode:'raw',announceTranscript:false,filter:{preset:'clear',type:'allpass',cutoff:2400,q:4}},
+      audio:{markers:[],captions:true,captionSize:16,visual:false,loop:false,speed:1,preservePitch:true,position:0,volume:35,muted:false,transcriptMode:'raw',announceTranscript:false,transcriptReviewed:false,filter:{preset:'clear',type:'allpass',cutoff:2400,q:4}},
       logs:[],termHistory:[],board:{items:{},connections:[],deductions:[]},guidance:{mode:'manual',inactivityMinutes:5,lastActivity:now,suggestedStage:''},
-      accessibility:{size:16,reducedMotion:false,highContrast:false},sessionWindows:[],finale:{stage:'idle',deleted:[],destroyed:[],startedAt:0,protectedAt:0,step:0,outcome:'pending'}
+      accessibility:{size:16,reducedMotion:false,reducedGlitch:false,highContrast:false,subtitles:true,transcripts:true,decorativePaused:false,masterVolume:100,voiceVolume:100,effectsVolume:70},sessionWindows:[],finale:{stage:'idle',deleted:[],destroyed:[],startedAt:0,protectedAt:0,step:0,outcome:'pending'}
     };
   }
 
@@ -44,6 +44,14 @@
       state.fs=mergeDefaults(state.fs,defaults.fs);
       state.finale=mergeDefaults(state.finale,defaults.finale);
       state.v=2; version=2;
+    }
+    if(version<3){
+      const defaults=freshState(state.t0||Date.now());
+      state=mergeDefaults(state,defaults);
+      state.accessibility=mergeDefaults(state.accessibility,defaults.accessibility);
+      state.audio=mergeDefaults(state.audio,defaults.audio);
+      if(state.solved?.file&&!state.flags?.audioRestored)state.flags.audioRestored=1;
+      state.v=3; version=3;
     }
     state=mergeDefaults(state,freshState(state.t0||Date.now()));
     state.v=VERSION;
@@ -159,5 +167,18 @@
     return 'pending';
   }
 
-  return {VERSION,PRIMARY_KEY,BACKUP_KEY,QUARANTINE_KEY,freshState,migrate,fnv1a,encode,decode,loadSession,saveSession,transcriptRows,activeTranscriptIndex,SPEEDS,PRESETS,speedStep,audioShortcut,debounce,recoveryTransition,finaleEligible,finaleOutcome};
+  function audioPuzzleReady(audio={},heardThrough=0){
+    return audio.filter?.preset==='voice'&&Number(audio.speed)===.75&&audio.transcriptMode==='enhanced'&&Number(heardThrough)>=50;
+  }
+
+  function endingConsequences(outcome='pending'){
+    return {
+      early:{broadcast:true,silence:true,trace:true,narrative:'The evidence hold preserved the full chain of custody.'},
+      late:{broadcast:true,silence:true,trace:false,narrative:'Partial loss broke the route needed to trace Mira.'},
+      ignored:{broadcast:false,silence:true,trace:false,narrative:'The wipe destroyed the verified copy; only local erasure remains.'},
+      pending:{broadcast:true,silence:true,trace:false,narrative:'Resolve the deletion threat before attempting a trace.'}
+    }[outcome]||{broadcast:true,silence:true,trace:false,narrative:''};
+  }
+
+  return {VERSION,PRIMARY_KEY,BACKUP_KEY,QUARANTINE_KEY,freshState,migrate,fnv1a,encode,decode,loadSession,saveSession,transcriptRows,activeTranscriptIndex,SPEEDS,PRESETS,speedStep,audioShortcut,debounce,recoveryTransition,finaleEligible,finaleOutcome,audioPuzzleReady,endingConsequences};
 });
