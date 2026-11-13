@@ -10,10 +10,13 @@ s.solved.caesar=1; assert.equal(game.objective(s).id,'file');
 s.solved.file=1; assert.equal(game.objective(s).id,'bin');
 assert.equal(game.appAccess('bin',s).allowed,true);
 s.flags.audioRestored=1; assert.equal(game.objective(s).id,'audio');
-s.solved.audio=1; assert.equal(game.objective(s).id,'board');
+s.solved.audio=1; assert.equal(game.objective(s).id,'audio');
+s.flags.audioSequenceVerified=1; assert.equal(game.objective(s).id,'audio');
+s.flags.audioSequenceAdded=1; assert.equal(game.objective(s).id,'board');
+s.flags.audioCipherVerified=1;
 s.flags.enc=1; assert.equal(game.objective(s).id,'board');
 assert.equal(game.appAccess('term',s).allowed,false);
-s.flags.timelineComplete=1; assert.equal(game.objective(s).id,'term');
+s.flags.timelineComplete=1; assert.equal(game.appAccess('term',s).allowed,true); assert.equal(game.objective(s).id,'term');
 s.solved.term=1; assert.equal(game.objective(s).id,'complete');
 
 assert.equal(game.progressiveHint(['broad','specific','answer'],0).text,'broad');

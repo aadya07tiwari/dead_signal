@@ -26,7 +26,7 @@ The recovery password shown by the login-screen clue is `0317`.
 - **Progression controller:** `js/game-controller.js` owns objective/act transitions, application gates, ending eligibility, progressive hint selection, and checkpoint snapshot creation. UI code reads these rules instead of duplicating them.
 - **Save and resume:** progress remains in `localStorage`, optionally mirrors to the PHP endpoint, and manual checkpoints preserve both game state and open-window layout.
 - **Accessible workstation:** Settings provide reduced motion and glitches, paused decorative effects, global subtitles/transcripts, high contrast, text sizing, and independent master/voice/effects volume preferences.
-- **Recovery path:** identify and restore `AUD_0017.wav` from Recycle Bin, isolate its Voice transcript at `0.75×`, complete `D _ W _` as `DAWN`, then run `open archive`, `unlock archive DAWN`, and `recover final_message.enc` in Terminal.
+- **Recovery path:** identify and restore `AUD_0317.wav` from Recycle Bin, listen through the Audio Lab recording, enter the four numbered bands, and add the sequence to the Evidence Board. Connect it to Mira’s alphabet index to reveal the archive key, complete the event timeline, then use Terminal commands to unlock the archive and recover `final_message.enc`.
 - **Reactive finale:** `observer_service.exe` establishes the earlier remote-observer beat; the later evidence hold produces early, late, or ignored outcomes that change ending eligibility and narrative.
 
 ## Testing
@@ -37,4 +37,4 @@ Run the dependency-free controller tests with:
 npm test
 ```
 
-The suite covers objective transitions, application locks, save migration, the audio-puzzle requirements, finale consequences, progressive hints, ending eligibility, and checkpoint snapshot isolation. The browser QA page in `tests/qa.html` runs 21 dependency-free checks. The full recovery, audio, hint, save/resume, progression, and ending checklist is in `tests/MANUAL_TESTS.md`.
+The suite covers objective transitions, application locks, save migration, the audio sequence, finale consequences, progressive hints, ending eligibility, and checkpoint snapshot isolation. The browser QA page in `tests/qa.html` runs dependency-free checks. The full recovery, audio, hint, save/resume, progression, and ending checklist is in `tests/MANUAL_TESTS.md`.

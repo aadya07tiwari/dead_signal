@@ -585,8 +585,28 @@ body.rm .pulse-control{box-shadow:0 0 0 2px #7d2020}
 .danger{background:#621d24!important;color:#fff!important;border-color:var(--rd)!important}.danger:disabled{opacity:.45}
 .finale-outcome{max-width:620px;padding:10px 14px;border:1px solid var(--line)}.finale-outcome.early{border-color:var(--gr);color:var(--gr)}.finale-outcome.late{border-color:var(--am);color:var(--am)}.finale-outcome.ignored{border-color:var(--rd);color:#ff9d9d}
 .transcript-completion{display:grid;grid-template-columns:1fr auto;gap:7px;margin:8px 0;padding:10px;border:1px solid var(--line);background:var(--bg)}.transcript-completion label,.transcript-completion small,.transcript-completion output{grid-column:1/-1}.transcript-completion.ready{border-color:var(--gr)}.transcript-completion input{width:6em;text-transform:uppercase;letter-spacing:.2em}.audio-spectrum-hint{padding:8px;border-left:3px solid var(--am)}
+.audio-lab.audio-simple{grid-template-columns:minmax(0,1fr);background:#292826;color:#f4efe7}
+.audio-simple .audio-main{background:#292826;color:#f4efe7}
+.audio-simple .audio-toolbar,.audio-simple .audio-transport,.audio-simple .transcript-completion{border-color:#5b5751;background:#363431;color:#f4efe7}
+.audio-simple .audio-signal{color:#f4efe7}
+.audio-simple #audio-native[controls]{display:block;flex:1 1 360px;width:100%;min-width:min(100%,280px);height:54px;margin:6px 0;color-scheme:dark;accent-color:#e7b85a}
+.audio-simple .audio-status,.audio-simple .audio-spectrum-hint,.audio-simple .transcript-completion small,.audio-simple .transcript-completion output{color:#e2dbd1}
+.audio-simple .audio-spectrum-hint{margin-top:8px;padding:10px;border-left:3px solid #e7b85a;background:#34322f;font-size:.86rem;line-height:1.55}
+.audio-simple .audio-transport label{color:#f0e9df;font-size:.78rem}
+.audio-simple .audio-transport input[type=range]{accent-color:#e7b85a}
+.audio-simple .wave-wrap{border-color:#5b5751;background:#211f1d}
+.audio-simple .audio-caption{background:#383632;color:#fff8ee}
+.audio-simple .transcript-completion label{color:#fff8ee;font-weight:700}
+.audio-simple #transcript-bands{width:100%;min-width:0;min-height:44px;padding:10px 12px;border:1px solid #938b7e;border-radius:5px;background:#211f1d;color:#fff8ee;font:600 1rem "Segoe UI",var(--sans);letter-spacing:.08em}
+.audio-simple #transcript-bands::placeholder{color:#d1c8bb;letter-spacing:0;font-weight:400}
+.audio-simple #transcript-bands:focus{outline:2px solid #e7b85a;outline-offset:1px}
+.audio-simple #audio-spectrum{display:block;width:100%;height:110px;min-height:110px;margin:8px 0;border:1px solid #6a645b;border-radius:4px;background:#252321}
+.audio-simple .btn{border-color:#898276;background:#44413c;color:#fff8ee}
+.audio-simple .btn:hover:not(:disabled){background:#555149;color:#fff}
+.audio-simple .btn.pri{border-color:#d2a84f;background:#967433;color:#fff}
+.audio-simple .btn:disabled{color:#c8c0b3;opacity:.75}
 .reduced-glitch .gl svg,.reduced-glitch .shake{animation:none!important;transform:none!important}.reduced-glitch #desktop::before{content:none}.reduced-glitch .redflash{animation:none!important;outline:2px solid var(--rd)}
-.decorative-paused .gl svg,.decorative-paused .terminal-cursor,.decorative-paused .pulse-control{animation-play-state:paused!important}.decorative-paused #desktop::before{display:none}.decorative-paused #audio-spectrum,.decorative-paused .monitor-metrics canvas{visibility:hidden}
+.decorative-paused .gl svg,.decorative-paused .terminal-cursor,.decorative-paused .pulse-control{animation-play-state:paused!important}.decorative-paused #desktop::before{display:none}.decorative-paused .monitor-metrics canvas{visibility:hidden}
 .transcripts-off .transcript,.transcripts-off .transcript-toolbar{display:none!important}.transcripts-off #audio-side-view::after{content:'Transcripts are disabled globally in Settings.';display:block;padding:14px;color:var(--mu)}
 @media(max-width:760px){.remote-wipe-banner{min-width:100%}.shortcut-grid{grid-template-columns:1fr}.audio-controls .btn{flex:1 1 45%}}
 

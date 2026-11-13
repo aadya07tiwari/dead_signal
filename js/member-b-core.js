@@ -5,14 +5,14 @@
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
 
-  const VERSION=3;
+  const VERSION=5;
   const PRIMARY_KEY='ds_friend_original_v1';
   const BACKUP_KEY='ds_friend_original_v1_backup';
   const QUARANTINE_KEY='ds_friend_original_v1_quarantine';
 
   function freshState(now=Date.now()){
     return {
-      v:VERSION,t0:now,solved:{},ev:[],hints:0,hl:{},flags:{evidenceHold:0},notes:[],lore:0,
+      v:VERSION,t0:now,solved:{},ev:[],hints:0,hl:{},flags:{evidenceHold:0,audioCipherVerified:0,audioSequenceVerified:0,audioSequenceAdded:0},notes:[],lore:0,
       fs:{path:'research',view:'details',preview:false,history:['research'],hi:0,sort:{key:'name',dir:1},evidence:{},restored:{},recovered:{}},
       audio:{markers:[],captions:true,captionSize:16,visual:false,loop:false,speed:1,preservePitch:true,position:0,volume:35,muted:false,transcriptMode:'raw',announceTranscript:false,transcriptReviewed:false,filter:{preset:'clear',type:'allpass',cutoff:2400,q:4}},
       logs:[],termHistory:[],board:{items:{},connections:[],deductions:[]},guidance:{mode:'manual',inactivityMinutes:5,lastActivity:now,suggestedStage:''},
@@ -52,6 +52,44 @@
       state.audio=mergeDefaults(state.audio,defaults.audio);
       if(state.solved?.file&&!state.flags?.audioRestored)state.flags.audioRestored=1;
       state.v=3; version=3;
+    }
+    if(version<4){
+      const defaults=freshState(state.t0||Date.now());
+      state=mergeDefaults(state,defaults);
+      state.flags=mergeDefaults(state.flags,defaults.flags);
+      if(!state.flags.audioCipherVerified){
+        delete state.solved.audio;
+        delete state.solved.term;
+        state.ev=(state.ev||[]).filter(x=>!['audio','enc','final'].includes(x));
+        state.flags.timelineComplete=0;
+        state.flags.enc=0;
+        state.flags.archiveOpened=0;
+        state.flags.archiveUnlocked=0;
+        state.flags.audioCipherVerified=0;
+        if(state.fs?.recovered)delete state.fs.recovered['final-recovered'];
+        const removed=new Set(['audio-sequence','dawn','archive-restored','final-message']);
+        if(state.board){
+          for(const key of removed)delete state.board.items?.[key];
+          state.board.connections=(state.board.connections||[]).filter(x=>!removed.has(x.a)&&!removed.has(x.b));
+          state.board.deductions=(state.board.deductions||[]).filter(x=>!removed.has(x.a)&&!removed.has(x.b));
+          state.board.timelineComplete=false;
+        }
+        state.finale=JSON.parse(JSON.stringify(defaults.finale));
+      }
+      state.v=4; version=4;
+    }
+    if(version<5){
+      const defaults=freshState(state.t0||Date.now());
+      state=mergeDefaults(state,defaults);
+      delete state.solved.audio;
+      delete state.solved.term;
+      state.ev=(state.ev||[]).filter(x=>!['audio','enc','final'].includes(x));
+      Object.assign(state.flags,{audioCipherVerified:0,audioSequenceVerified:0,audioSequenceAdded:0,timelineComplete:0,enc:0,archiveOpened:0,archiveUnlocked:0});
+      if(state.fs?.recovered)delete state.fs.recovered['final-recovered'];
+      const removed=new Set(['audio-sequence','dawn','archive-restored','final-message','deduction-key','deduction-location','event-timeline']);
+      if(state.board){for(const key of removed)delete state.board.items?.[key];state.board.connections=(state.board.connections||[]).filter(x=>!removed.has(x.a)&&!removed.has(x.b));state.board.deductions=(state.board.deductions||[]).filter(x=>!removed.has(x.a)&&!removed.has(x.b));state.board.timelineComplete=false;}
+      state.finale=JSON.parse(JSON.stringify(defaults.finale));
+      state.v=5;version=5;
     }
     state=mergeDefaults(state,freshState(state.t0||Date.now()));
     state.v=VERSION;
@@ -158,7 +196,7 @@
     return {ok:false,reason:'unknown-action',state:next};
   }
 
-  function finaleEligible(state){return !!state?.flags?.enc&&!!state?.solved?.audio}
+  function finaleEligible(state){return !!state?.flags?.enc&&!!state?.solved?.audio&&!!state?.flags?.audioCipherVerified}
   function finaleOutcome(finale={}){
     if(finale.outcome&&finale.outcome!=='pending')return finale.outcome;
     const lost=(finale.deleted||[]).length+(finale.destroyed||[]).length;
@@ -167,8 +205,11 @@
     return 'pending';
   }
 
-  function audioPuzzleReady(audio={},heardThrough=0){
-    return audio.filter?.preset==='voice'&&Number(audio.speed)===.75&&audio.transcriptMode==='enhanced'&&Number(heardThrough)>=50;
+  function audioPuzzleReady(audio={},heardThrough=0){return Number(heardThrough)>=59;}
+
+  function verifyAudioSequence(sequence){
+    const values=String(sequence||'').trim().split(/[\s,;.-]+/).filter(Boolean).map(Number);
+    return values.length===4&&values.every((value,index)=>value===[4,1,23,14][index])?'matched':'sequence-mismatch';
   }
 
   function endingConsequences(outcome='pending'){
@@ -180,5 +221,5 @@
     }[outcome]||{broadcast:true,silence:true,trace:false,narrative:''};
   }
 
-  return {VERSION,PRIMARY_KEY,BACKUP_KEY,QUARANTINE_KEY,freshState,migrate,fnv1a,encode,decode,loadSession,saveSession,transcriptRows,activeTranscriptIndex,SPEEDS,PRESETS,speedStep,audioShortcut,debounce,recoveryTransition,finaleEligible,finaleOutcome,audioPuzzleReady,endingConsequences};
+  return {VERSION,PRIMARY_KEY,BACKUP_KEY,QUARANTINE_KEY,freshState,migrate,fnv1a,encode,decode,loadSession,saveSession,transcriptRows,activeTranscriptIndex,SPEEDS,PRESETS,speedStep,audioShortcut,debounce,recoveryTransition,finaleEligible,finaleOutcome,audioPuzzleReady,verifyAudioSequence,endingConsequences};
 });

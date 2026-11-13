@@ -5,17 +5,18 @@ Run the site through a local HTTP server. Use a fresh browser profile or choose 
 ## Recovery and progression
 
 1. Unlock the workstation with `0317` and confirm Act 1 starts at Messages.
-2. Confirm Recycle Bin is blocked until the Mail/File Explorer clue identifies `AUD_0017.wav`.
-3. Restore `AUD_0017.wav` from Recycle Bin and confirm Audio Lab becomes playable.
-4. In Audio Lab choose Voice, 0.75×, Enhanced transcript, listen through 00:50, and complete `D _ W _` as `DAWN`.
-5. Confirm Terminal remains blocked until all six Evidence Board connections are complete.
-6. Complete the board and run `open archive`, `unlock archive DAWN`, and `recover final_message.enc`; verify an empty `[y/N]` response cancels.
+2. Confirm Recycle Bin is blocked until the Mail/File Explorer clue identifies `AUD_0317.wav`.
+3. Restore `AUD_0317.wav` from Recycle Bin and confirm Audio Lab becomes playable.
+4. In Audio Lab listen through the recording, enter the four band numbers in order, verify the sequence, then use the enabled Add to Evidence Board button.
+5. On the Evidence Board connect “Audio sequence recovered” with “Alphabet key” to reveal the archive key. Complete the other timeline links.
+6. Confirm Terminal remains blocked until all six Evidence Board connections are complete.
+7. In Terminal run `open archive`, `unlock archive <decoded key>`, and `recover final_message.enc`; verify an empty `[y/N]` response cancels.
 
 ## Audio
 
-1. Confirm Audio Lab is gated before `AUD_0017.wav` is restored from Recycle Bin.
-2. After recovery, verify play, pause, stop, seek, volume, speed, captions, descriptions, markers, and keyboard controls.
-3. Confirm simply seeking or playing past 00:46 does not solve the puzzle without Voice, 0.75×, Enhanced transcript, and `DAWN` completion.
+1. Confirm Audio Lab is gated before `AUD_0317.wav` is restored from Recycle Bin.
+2. After recovery, verify play, pause, stop, seek, volume, mute, loop, and the numbered-band display. Confirm subtitle and contrast preferences remain effective.
+3. Confirm seeking alone does not satisfy the listening step, an incorrect or incomplete sequence is rejected, and the Evidence Board button stays disabled until the sequence is correct.
 
 ## Hints
 
